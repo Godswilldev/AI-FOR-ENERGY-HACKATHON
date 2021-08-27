@@ -30,6 +30,7 @@ const Form = ({ data }) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+
     console.log({
       make,
       model,
@@ -41,6 +42,7 @@ const Form = ({ data }) => {
       mpg,
       co2Emissions,
     });
+
     resetMake();
     resetModel();
     resetCo2Emissions();
