@@ -1,126 +1,252 @@
 import React from "react";
 import useInputState from "../hooks/useInputState";
 
-const Form = () => {
-  const [make, setMake] = useInputState("");
-  const [model, setModel] = useInputState("");
-  const [vehicleClass, setVehicleClass] = useInputState("");
-  const [engine, setEngine] = useInputState("");
-  const [cylinders, setCylinders] = useInputState("");
-  const [transmission, setTransmission] = useInputState("");
-  const [fuelType, setFuelType] = useInputState("");
-  const [mpg, setMpg] = useInputState("");
-  const [co2Emissions, setCo2Emissions] = useInputState("");
+const Form = ({ data }) => {
+  const [make, setMake, resetMake] = useInputState("");
+  const Make = new Set(data.map((d) => d.Make));
+
+  const [model, setModel, resetModel] = useInputState("");
+  const Model = new Set(data.map((d) => d.Model));
+
+  const [vehicleClass, setVehicleClass, resetVehicleClass] = useInputState("");
+  const Vehicle_Class = new Set(data.map((d) => d.Vehicle_Class));
+
+  const [engine, setEngine, resetEngine] = useInputState("");
+  const Engine = new Set(data.map((d) => d.Engine));
+
+  const [cylinders, setCylinders, resetCylinders] = useInputState("");
+  const Cylinders = new Set(data.map((d) => d.Cylinders));
+
+  const [transmission, setTransmission, resetTransmission] = useInputState("");
+  const Transmission = new Set(data.map((d) => d.Transmission));
+
+  const [fuelType, setFuelType, resetFuelType] = useInputState("");
+  const Fuel_Type = new Set(data.map((d) => d.Fuel_Type));
+
+  const [mpg, setMpg, resetMpg] = useInputState("");
+  const Mpg = new Set(data.map((d) => d.mpg));
+
+  const [co2Emissions, setCo2Emissions, resetCo2Emissions] = useInputState("");
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log({
+      make,
+      model,
+      vehicleClass,
+      engine,
+      cylinders,
+      transmission,
+      fuelType,
+      mpg,
+      co2Emissions,
+    });
+    resetMake();
+    resetModel();
+    resetCo2Emissions();
+    resetMpg();
+    resetFuelType();
+    resetTransmission();
+    resetEngine();
+    resetCylinders();
+    resetVehicleClass();
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      {/* Make */}
+
       <div>
+        <h1>{make}</h1>
         <label htmlFor="make">Make: </label>
-        <input
-          type="text"
-          name="make"
-          id="make"
-          placeholder="e.g: Acura"
-          value={make}
-          onChange={setMake}
-        />
+        <select name="make" id="make" onChange={setMake}>
+          <option value={make}>Make</option>
+          {[...Make].map((value, idx) => (
+            <option key={idx} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
       </div>
 
+      {/* Model */}
+
       <div>
+        <h1>{model}</h1>
         <label htmlFor="model">Model: </label>
-        <input
-          type="text"
-          name="model"
-          id="model"
-          placeholder="e.g: ILX HYBRID"
-          value={model}
-          onChange={setModel}
-        />
+        <select name="model" id="model" onChange={setModel}>
+          <option value={model}>Model</option>
+          {[...Model].map((value, idx) => (
+            <option key={idx} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
       </div>
 
+      {/* Vehicle class */}
+
       <div>
+        <h1>{vehicleClass}</h1>
         <label htmlFor="vehicleClass">Vehicle Class: </label>
-        <input
-          type="text"
+        <select
           name="vehicleClass"
           id="vehicleClass"
-          placeholder="e.g: COMPACT"
-          value={vehicleClass}
           onChange={setVehicleClass}
-        />
+        >
+          <option value={vehicleClass}>Vehicle Class</option>
+          {[...Vehicle_Class].map((value, idx) => (
+            <option key={idx} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
       </div>
 
+      {/* Engine */}
+
       <div>
+        <h1>{engine}</h1>
         <label htmlFor="engine">Engine: </label>
+        <select name="engine" id="engine" onChange={setEngine}>
+          <option value={engine}>Engine</option>
+          {[...Engine]
+            .sort((a, b) => a - b)
+            .map((value, idx) => (
+              <option key={idx} value={value}>
+                {value}
+              </option>
+            ))}
+        </select>
+
         <input
-          type="text"
+          type="range"
           name="engine"
           id="engine"
-          placeholder="e.g: 2"
           value={engine}
           onChange={setEngine}
+          min={0}
+          step={0.1}
+          max={10}
         />
       </div>
 
+      {/* Cylinders */}
+
       <div>
-        <label htmlFor="make">Cylinders: </label>
+        <h1>{cylinders}</h1>
+        <label htmlFor="cylinders">Cylinders: </label>
+        <select name="cylinders" id="Cylinders" onChange={setCylinders}>
+          <option value={cylinders}>Cylinders</option>
+          {[...Cylinders]
+            .sort((a, b) => a - b)
+            .map((value, idx) => (
+              <option key={idx} value={value}>
+                {value}
+              </option>
+            ))}
+        </select>
+
         <input
-          type="text"
+          type="range"
           name="cylinders"
           id="cylinders"
-          placeholder="e.g: 4"
           value={cylinders}
           onChange={setCylinders}
+          min={0}
+          step={1}
+          max={20}
         />
       </div>
 
-      <div>
-        <label htmlFor="transmission">Transmission: </label>
-        <input
-          type="text"
-          name="transmission"
-          id="transmission"
-          placeholder="e.g: AS5"
-          value={transmission}
-          onChange={setTransmission}
-        />
-      </div>
+      {/* MPG */}
 
       <div>
-        <label htmlFor="fuelType">Fuel Type: </label>
-        <input
-          type="text"
-          name="fuelType"
-          id="fuelType"
-          placeholder="e.g: Z"
-          value={fuelType}
-          onChange={setFuelType}
-        />
-      </div>
+        <h1>{mpg}</h1>
+        <label htmlFor="mpg">MPG: </label>
+        <select name="mpg" id="mpg" onChange={setMpg}>
+          <option value={mpg}>MPG</option>
+          {[...Mpg]
+            .sort((a, b) => a - b)
+            .map((value, idx) => (
+              <option key={idx} value={value}>
+                {value}
+              </option>
+            ))}
+        </select>
 
-      <div>
-        <label htmlFor="mpg">MPG'S: </label>
         <input
-          type="text"
+          type="range"
           name="mpg"
           id="mpg"
-          placeholder="e.g: 33"
           value={mpg}
           onChange={setMpg}
+          min={0}
+          step={1}
+          max={100}
         />
       </div>
 
+      {/* CO2 EMISSIONS */}
+
       <div>
-        <label htmlFor="make">CO2 Emissions: </label>
+        <h1>{co2Emissions}</h1>
+        <label htmlFor="co2Emissions">CO2 Emissions: </label>
+
         <input
-          type="text"
+          type="range"
           name="co2Emissions"
           id="co2Emissions"
-          placeholder="e.g: 196"
-          ovalue={co2Emissions}
+          value={co2Emissions}
+          onChange={setCo2Emissions}
+          min={0}
+          step={1}
+          max={500}
+        />
+
+        <input
+          type="number"
+          name="co2Emissions"
+          id="co2Emissions"
+          value={co2Emissions}
           onChange={setCo2Emissions}
         />
       </div>
+
+      {/* Transmission */}
+
+      <div>
+        <h1>{transmission}</h1>
+        <label htmlFor="transmission">Transmission: </label>
+        <select
+          name="transmission"
+          id="transmission"
+          onChange={setTransmission}
+        >
+          <option value={transmission}>Transmission</option>
+          {[...Transmission].map((value, idx) => (
+            <option key={idx} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Fuel Type */}
+
+      <div>
+        <h1>{fuelType}</h1>
+        <label htmlFor="fuelType">Fuel Type: </label>
+        <select name="fuelType" id="fuelType" onChange={setFuelType}>
+          <option value={fuelType}>Fuel Type</option>
+          {[...Fuel_Type].map((value, idx) => (
+            <option key={idx} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <button type="submit">Submit</button>
     </form>
   );
